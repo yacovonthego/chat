@@ -1,8 +1,21 @@
+const http      = require('http');
 const express   = require('express');
-const Router    = express.Router();
+const socketio  = require('socket.io');
+const cors      = require('cors');
 
-Router.get('/', (req, res) => {
-    res.send({response: "Server is up and running"}).status(200);
+const router    = require('./router');
+
+const app       = express();
+const server    = http.createServer(app);
+const io        = socketio(server);
+
+app.use(cors());
+app.use(router);
+
+io.on('connection', (socket) => {
+    
+    socket.on('login', (data) => {
+        console.log(data);
+    });
+
 });
-
-module.exports = Router;
