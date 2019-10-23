@@ -21,7 +21,7 @@ const Join = () => {
 					className="link"
 					onClick={ event => (!name) ? event.preventDefault() : null }
 					to={{
-						pathname: '/chat',
+						pathname: '/rooms',
 						state: { name }
 					}}
 				>
