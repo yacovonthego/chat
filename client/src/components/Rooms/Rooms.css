@@ -13,19 +13,23 @@
     align-items: center;
     padding-left: 10px;
 }
+.rooms-title {
+    text-align: center;
+}
 .room {
-    width: 100%;
     max-width: 200px;
     text-align: center;
     padding-top: 20px;
     padding-bottom: 20px;
+}
+.room-name {
+    width: 100%;
+    display: flex;
+    justify-content: center;
     border: 1px solid transparent;
     border-radius: 5px;
     cursor: pointer;
 }
-.room:hover {
+.room-name:hover {
     border: 1px solid #BDBDBD;
-}
-.rooms-title {
-    text-align: center;
 }
