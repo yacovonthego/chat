@@ -28,8 +28,6 @@
     width: 100vw;
     height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
 }
 .form {
     display: flex;
@@ -38,6 +36,8 @@
 }
 .input {
     width: 100%;
+    border-radius: 5px;
+    border: 1px solid #BDBDBD;
 }
 .button {
     width: 100%;

@@ -5,3 +5,11 @@
     color: #fff;
     font-weight: 500;
 }
+/* quick fix for Link width */
+.link {
+    width: 100%;
+}
+.outer-join {
+    justify-content: center;
+    align-items: center;
+}

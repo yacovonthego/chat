@@ -8,7 +8,7 @@ const Join = () => {
 	const [name, setName] = useState('');
 
 	return (
-		<div className="outer">
+		<div className="outer outer-join">
 			<div className="form form-login">
 				<h1 className="roboto font-big">Join</h1>
 				<input 
@@ -18,6 +18,7 @@ const Join = () => {
 					className="input input-login mt20 roboto p-medium"
 				/>
 				<Link
+					className="link"
 					onClick={ event => (!name) ? event.preventDefault() : null }
 					to={{
 						pathname: '/chat',

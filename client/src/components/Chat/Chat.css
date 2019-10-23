@@ -1,0 +1,20 @@
+.outer-chat {
+    flex-direction: row;
+}
+.rooms {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.room {
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.room:hover {
+    border: 1px solid #BDBDBD;
+}
