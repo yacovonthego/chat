@@ -5,13 +5,14 @@
 }
 .rooms {
     width: 30vw;
-    height: 50vh;
+    height: 288px;
     overflow-y: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding-left: 10px;
+    /* overflow-y: scroll; */
 }
 .rooms-title {
     text-align: center;
@@ -29,6 +30,8 @@
     border: 1px solid transparent;
     border-radius: 5px;
     cursor: pointer;
+    text-decoration: none;
+    color: #000;
 }
 .room-name:hover {
     border: 1px solid #BDBDBD;

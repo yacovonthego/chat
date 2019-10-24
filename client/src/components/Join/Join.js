@@ -1,11 +1,33 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios'
 
 import './Join.css'
 
 const Join = () => {
 
 	const [name, setName] = useState('');
+	const [rooms, setRooms] = useState([]);
+
+	// data fetching patterns specified in react documentation
+	useEffect(() => {	
+		let ignore = false;
+
+		// EEF instead definition and calling
+		(async function fetchData() {
+		 	axios.get('http://localhost:5000/get-rooms')
+		  		 .then(response => {
+					if (!ignore) setRooms(response.data);
+				   })
+		  		 .catch((error) => {});
+		})();
+
+		// ignore used for cleanup, to prevent memory leaks
+		return () => {
+			ignore = true;
+		}
+
+	  });
 
 	return (
 		<div className="outer outer-join">
@@ -21,8 +43,12 @@ const Join = () => {
 					className="link"
 					onClick={ event => (!name) ? event.preventDefault() : null }
 					to={{
+						// passing state, for using socket connection later
 						pathname: '/rooms',
-						state: { name }
+						state: { 
+							name,
+							rooms
+						}
 					}}
 				>
 					<button className="button button-form mt20 roboto p-small">

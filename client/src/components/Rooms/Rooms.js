@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import io from 'socket.io-client'
 import { Link } from 'react-router-dom';
 
 
 import './Rooms.css'
 
-let socket;
 
 const Chat = (props) => {
 
@@ -14,26 +12,29 @@ const Chat = (props) => {
 
 	useEffect(() => {
 		setName(props.location.state.name);
+		setRooms(props.location.state.rooms);
 
 		return () => {
-			setName('');
+      setName('');
+      setRooms([])
 		};
 	}, [props.location.state]);
 
-  useEffect(() => {
-    	// logging in
-      socket = io.connect('localhost:5000');
-      socket.emit('login', name);
-  }, [name]);
+  // useEffect(() => {
+  //   	// logging in
+  //     socket = io.connect('localhost:5000');
+  //     socket.emit('login', name);
+  // }, [name]);
 
-  useEffect(() => {
-    socket.on('choice', data => setRooms(data));
+  // useEffect(() => {
+  //   socket.on('choice', data => setRooms(data));
     
-    return () => {
-      socket.emit('disconnect');
-      socket.off();
-    }
-  });
+  //   return () => {
+  //     socket.emit('disconnect');
+  //     socket.off();
+  //     console.log('disconnected');
+  //   }
+  // });
 
 
 
