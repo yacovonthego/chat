@@ -5,9 +5,10 @@ let socket = null;
 
 const Chat = (props) => {
 
-	const [name, setName] 	= useState('');
-	const [room, setRoom] 	= useState('');
-	const ENDPOINT 			= 'localhost:5000'
+	const [name, setName] 		= useState('');
+	const [room, setRoom] 		= useState('');
+	const [users, setUsers] 	= useState([]);
+	const ENDPOINT 				= 'localhost:5000'
 
 	useEffect(() => {
 		setName(props.location.state.name);
@@ -26,11 +27,25 @@ const Chat = (props) => {
 			setRoom('');
 
 			// emit disconnect event and close socket connection after dismount
-			socket.emit('disconnect');
-			socket.close();
+			console.log('disconnected');
+			socket.emit('leave', { name, room }, (error) => {
+				console.log(error);
+			});
+			socket.off();
 		};
 	}, [name, room, props.location.state]);
 
+	useEffect(() => {
+		
+		socket.on('joined', (resUsers) => {
+			setUsers(resUsers);
+			console.log(users);	
+		});
+
+		return () => {
+			setUsers([]);
+		};
+	}, [users]);
 	
 
 	return (

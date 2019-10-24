@@ -10,14 +10,17 @@ const server    = http.createServer(app);
 const io        = socketio(server);
 
 const ENDPOINT  = process.env.PORT || 5000;
-const STORAGE   = {
-    rooms: ['JS', 'PHP', 'C++'],
-    addRoom: (room) => {
-        STORAGE.rooms.push(room);
-    },
-};
 
-STORAGE.addRoom('LOLIS');
+// let because of filtering users
+let     STORAGE = {
+            rooms: ['JS', 'PHP', 'C++'],
+            users: {
+                'JS': [],
+                'PHP': [],
+                'C++': []
+            }
+        };
+
 app.use(cors());
 app.use(router);
 
@@ -28,8 +31,24 @@ app.get('/get-rooms', (req, res) => {
 io.origins(['*:*']);
 
 io.on('connection', (socket) => {
-    socket.on('login', ({ name, room }) => {
 
+    socket.on('join', ({ name, room }) => {
+        if (name && room) {
+            if (!STORAGE.users[room].includes(name)) {
+                STORAGE.users[room].push(name);
+                console.log(STORAGE.users[room] + 'joined' + room);
+                socket.emit('joined', STORAGE.users[room]);
+            } 
+        }       
+    });
+    
+    socket.on('leave', ({ name, room }) => {
+        if (name && room) {
+            // STORAGE.users[room] = STORAGE.users[room].filter( item => item !==name );
+            // console.log(`${name} disconnected from ${room}`);
+            console.log(name, room);
+            console.log(STORAGE);
+        }
     });
     // let user = null;
     // socket.on('login', (username) => {
