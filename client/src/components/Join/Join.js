@@ -10,10 +10,12 @@ const Join = () => {
 	const [rooms, setRooms] = useState([]);
 
 	// data fetching patterns specified in react documentation
+	// no need to use bidirectional communication just to get an array :^)
 	useEffect(() => {	
 		let ignore = false;
 
 		// EEF instead definition and calling
+		// remember to check different if locations
 		(async function fetchData() {
 		 	axios.get('http://localhost:5000/get-rooms')
 		  		 .then(response => {

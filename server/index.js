@@ -4,79 +4,59 @@ const socketio  = require('socket.io');
 const cors      = require('cors');
 
 const router    = require('./router');
+const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
+
 
 const app       = express();
 const server    = http.createServer(app);
 const io        = socketio(server);
 
 const ENDPOINT  = process.env.PORT || 5000;
+const ROOMS     = ['JS', 'PHP', 'C++'];
 
-// let because of filtering users
-let     STORAGE = {
-            rooms: ['JS', 'PHP', 'C++'],
-            users: {
-                'JS': [],
-                'PHP': [],
-                'C++': []
-            }
-        };
 
 app.use(cors());
 app.use(router);
 
 app.get('/get-rooms', (req, res) => {
-    res.send(STORAGE.rooms);
+    res.send(ROOMS);
 });
 
 io.origins(['*:*']);
 
 io.on('connection', (socket) => {
 
-    socket.on('join', ({ name, room }) => {
+    socket.on('join', ({ name, room }, callback) => {
+        // if (name && room) {
+        //     if (!STORAGE.users[room].includes(name)) {
+        //         STORAGE.users[room].push(name);
+        //         console.log(name + ' joined ' + room);
+        //         socket.emit('welcome', STORAGE.users[room]);
+        //         console.log(STORAGE.users[room]);
+        //         callback();
+        //     } 
+        // } 
         if (name && room) {
-            if (!STORAGE.users[room].includes(name)) {
-                STORAGE.users[room].push(name);
-                console.log(STORAGE.users[room] + 'joined' + room);
-                socket.emit('joined', STORAGE.users[room]);
-            } 
-        }       
-    });
-    
-    socket.on('leave', ({ name, room }) => {
-        if (name && room) {
-            // STORAGE.users[room] = STORAGE.users[room].filter( item => item !==name );
-            // console.log(`${name} disconnected from ${room}`);
-            console.log(name, room);
-            console.log(STORAGE);
+            const { error, user } = addUser({ id: socket.id, name, room });
+
+            if (error) return callback(error);
+
+            socket.join(user.room);
+
+            io.to(user.room).emit('usersInRoom', getUsersInRoom(user.room));
+
+            callback();
         }
     });
-    // let user = null;
-    // socket.on('login', (username) => {
-    //     if (username) {
-    //         console.log(username + ' has joined');
-    //         if (!USERS.includes(username)) {
-    //             USERS.push(username);
-    //             user = username;
-    //         }
-    //         console.table(USERS);
-    //         socket.emit('choice', ROOMS);
-    //     }
-    // });
+    
+    socket.on('send', (message, callback) => {
+        const user = getUser(socket.id);
+        io.to(user.room).emit('message', { user: user.name, test: message });
+    });
 
-    // // disconnect handling
-    // socket.on('disconnect', (reason) => {
-    //     if (reason === 'io server disconnect') socket.connect();
-    //     else if (user){
-    //         USERS = USERS.filter( value => value !== user);
-    //         console.log('disconnected');
-    //     }
-    //     //console.table(USERS);
-    // });
-
-    // // room subscribe handling
-    // socket.on('subToRoom', (data) => {
-    //     socket.join(data.room);
-    // });
+    socket.on('leave', () => {
+        const user = removeUser(socket.id);
+    });
 });
 
 server.listen(ENDPOINT, () => console.log(`Server has started on ${ENDPOINT}.`));
