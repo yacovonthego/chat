@@ -18,7 +18,7 @@ const Chat = (props) => {
 	const [uriRedirect, setUriRedirect] 	= useState(false);
 	// login error redirect state
 	const [loginRedirect, setLoginRedirect] = useState(false);
-	const ENDPOINT 							= 'localhost:5000';
+	const ENDPOINT 							= 'https://tr-chat-ff.herokuapp.com/';
 	// using useRef to store socket as mentioned in docs
 	const socket 							= useRef();
 

@@ -22,7 +22,7 @@ const Join = (props) => {
 		// EEF instead definition and calling
 		// remember to check different if locations
 		(async function fetchData() {
-		 	axios.get('http://localhost:5000/get-rooms')
+		 	axios.get('https://tr-chat-ff.herokuapp.com/get-rooms')
 		  		 .then(response => {
 					if (!ignore) setRooms(response.data);
 				   })
