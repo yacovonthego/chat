@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
+// initial imports
 
 import './Join.css'
+// style imports
 
 const Join = (props) => {
 
-	const [name, setName] = useState('');
-	const [rooms, setRooms] = useState([]);
+	const [name, setName] 				= useState('');
+	const [rooms, setRooms] 			= useState([]);
+	const [loginError, setLoginError] 	= useState(false);
+	const [uriError, setUriError] 		= useState(false);
 
 	// data fetching patterns specified in react documentation
 	// no need to use bidirectional communication just to get an array :^)
-	useEffect(() => {	
+	useEffect(() => {
+		// wether we should update our call or not	
 		let ignore = false;
 
 		// EEF instead definition and calling
@@ -31,6 +36,18 @@ const Join = (props) => {
 
 	  });
 
+	useEffect(() => {
+		const state = props.location.state;
+		if (typeof(state) !== "undefined") {
+			if (state.loginError) setLoginError(true);
+			if (state.uriError) setUriError(true);
+		}
+		return () => {
+			setLoginError(false);
+			setUriError(false);
+		};
+	}, [props.location]);
+
 	return (
 		<div className="outer outer-join">
 			<div className="form form-login">
@@ -41,20 +58,25 @@ const Join = (props) => {
 					type="text" 
 					className="input input-login mt20 roboto p-medium"
 				/>
-				{/* duct tape for login error handling :^() */}
+				{/* duct tape for login loginError handling :^() */}
 				{
-					props.location.state &&
+					loginError &&
 					<div className="login-error roboto">Username is taken, try new one</div>
+				}
+				{/* another duct tape for uriError handling :^B */}
+				{
+					uriError &&
+					<div className="login-error roboto">Login first, please</div>
 				}
 				<Link
 					className="link"
 					onClick={ event => (!name) ? event.preventDefault() : null }
 					to={{
 						// passing state, for using socket connection later
-						pathname: '/rooms',
+						pathname: uriError ? `/chat/${props.location.state.roomFrom}` : '/rooms',
 						state: { 
 							name,
-							rooms
+							room: uriError ? props.location.state.roomFrom : rooms
 						}
 					}}
 				>

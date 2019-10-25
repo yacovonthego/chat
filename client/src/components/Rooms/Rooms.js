@@ -13,7 +13,7 @@ const Chat = (props) => {
 	useEffect(() => {
     // setting state we got in join
 		setName(props.location.state.name);
-		setRooms(props.location.state.rooms);
+		setRooms(props.location.state.room);
 
 		return () => {
       setName('');
@@ -32,10 +32,10 @@ const Chat = (props) => {
               className="room-name"
               key={item}
               to={{
-                pathname: '/chat',
+                pathname: '/chat/' + item,
                 state: {
                   name,
-                  roomName: item
+                  room: item
                 }
               }}
             >
