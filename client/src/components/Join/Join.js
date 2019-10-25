@@ -4,7 +4,7 @@ import axios from 'axios'
 
 import './Join.css'
 
-const Join = () => {
+const Join = (props) => {
 
 	const [name, setName] = useState('');
 	const [rooms, setRooms] = useState([]);
@@ -41,6 +41,11 @@ const Join = () => {
 					type="text" 
 					className="input input-login mt20 roboto p-medium"
 				/>
+				{/* duct tape for login error handling :^() */}
+				{
+					props.location.state &&
+					<div className="login-error roboto">Username is taken, try new one</div>
+				}
 				<Link
 					className="link"
 					onClick={ event => (!name) ? event.preventDefault() : null }

@@ -9,6 +9,10 @@
 }
 .container-people {
     width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 .container-box {
     width: 100%;
@@ -25,6 +29,43 @@
     border: 1px solid #BDBDBD;
     border-radius: 5px;
     margin-bottom: 10px;
+    padding-top: 15px;
+    padding-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.message {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+}
+.message__name {
+    font-size: 9px;
+    margin-right: 5px;
+}
+/* bad way for conditional styling */
+.message__body {
+    padding: 4px;
+    color: #fff;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background-color: #64b5f6;
+}
+.message__body_user {
+    padding: 4px;
+    color: #fff;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background-color: #01579B;
+}
+.message__text {
+    font-size: 20px;
+}
+.message__time {
+    margin-top: 4px;
+    align-self: flex-end;
+    font-size: 9px;
 }
 .input-chat {
     height: 90px;

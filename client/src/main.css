@@ -5,6 +5,9 @@
 .roboto {
     font-family: Roboto, sans-serif;
 }
+.font-small {
+    font-size: 12px;
+}
 .font-medium {
     font-size: 36px;
 }
@@ -24,6 +27,9 @@
 }
 .mt20 {
     margin-top: 20px;
+}
+.mt5 {
+    margin-top: 5px;
 }
 
 /* origin styles */

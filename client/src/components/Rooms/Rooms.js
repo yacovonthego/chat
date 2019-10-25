@@ -11,6 +11,7 @@ const Chat = (props) => {
 	const [rooms, setRooms] = useState([]);
 
 	useEffect(() => {
+    // setting state we got in join
 		setName(props.location.state.name);
 		setRooms(props.location.state.rooms);
 
@@ -18,31 +19,13 @@ const Chat = (props) => {
       setName('');
       setRooms([])
 		};
-	}, [props.location.state]);
-
-  // useEffect(() => {
-  //   	// logging in
-  //     socket = io.connect('localhost:5000');
-  //     socket.emit('login', name);
-  // }, [name]);
-
-  // useEffect(() => {
-  //   socket.on('choice', data => setRooms(data));
-    
-  //   return () => {
-  //     socket.emit('disconnect');
-  //     socket.off();
-  //     console.log('disconnected');
-  //   }
-  // });
-
-
-
-	// props.location.state
+  }, [props.location.state]);
+  
 	return (
     <div className="outer outer-chat">
       <div className="rooms roboto">
         <h2 className="rooms-title roboto font-medium mb20">Rooms:</h2>
+        {/* passing collected state for socket connection once again :^) */}
         { 
           rooms.map(item => 
             <Link

@@ -13,3 +13,9 @@
     justify-content: center;
     align-items: center;
 }
+.login-error {
+    color: #F08080;
+    margin-top: 5px;
+    margin-bottom: -10px;
+    font-size: 13px;
+}
